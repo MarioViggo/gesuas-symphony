@@ -1,0 +1,62 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}GESUAS - Assitência Social{% endblock %}
+
+{% block body %}
+<style>
+    * { font-family: Roboto; padding: 0; }
+    .container { display: flex; align-items: center; justify-content: center; margin: 0; padding: 0; }
+    .descricao-container { display: flex; flex-direction: column; justify-content: center; width: 50%; height: 100vh; }
+    .header { position: fixed; top: 0; padding-top: 3rem; }
+    .busca-nis-container { display: flex; flex-direction: column; justify-content: center; align-items: center; width: 30%; height: 100vh; gap: 2em}
+    .busca-nis-content { padding-left: 12%; padding-right: 12%; }
+    .busca-nis-title { text-align: center; margin-bottom: 2em; font-size: 1.5em; color: #231F20; }
+    label { font-size: 0.9em; color: #231F20; font-weight: normal; }
+    form { width: 24em; height: 8em; padding: 10px 40px; border-radius: 8px; box-shadow: 0px 0px 8px 1px rgba(0, 0, 0, 0.3); transition: all .5s; }
+    form:hover { box-shadow: 0px 0px 8px 4px rgba(0, 0, 0, 0.3); }
+    input { padding: 6px; border: 1px solid #0071B1;; border-radius: 4px; margin-right: 18px; width: 70%; }
+    .campo-container { display: flex; flex-direction: row; justify-content: space-between; }
+    button { padding: 8px; background-color: #610c69; border: none; border-radius: 4px; color: #D1D1D1; cursor: pointer; width: 30%; transition: background .5s;}
+    button:hover { background-color: #4ef57e; }
+    .mensagem { width: 24em; padding: 12px; border-radius: 8px; color: #D1D1D1; text-align: center;}
+    .mensagem-sucesso {  height: 8em; border: 2px solid #610c69;  background-color: #610c69; }
+    .mensagem-erro { height: 4em; border: 2px solid #610c69; background-color: #D03030; }
+
+</style>
+
+<div class="container">
+    <aside class="busca-nis-container">
+
+        <form action="{{ path('registrar_beneficente') }}" method="post">
+            <h3>Registrar Beneficente</h3>
+            <div class="campo-container">
+                <input type="text" id="nome" name="nome" required placeholder="Digite o nome">
+                <button type="submit">Registrar</button>
+            </div>
+        </form>
+        
+        <form action="{{ path('buscar_beneficente') }}" method="post">
+            <h3>Pesquisar Beneficente</h3>
+            <div class="campo-container">
+                <input type="text" id="nis" name="nis" required placeholder="Digite o NIS" minlength="11" maxlength="11">
+                <button type="submit">Buscar</button>
+            </div>
+        </form>
+
+        {% if beneficente is defined %}
+            <div class="mensagem mensagem-sucesso">
+                <h3>Detalhes do Beneficente</h3>
+                <h4>Nome: {{ beneficente.nome }}</h4>
+                <h4>NIS: {{ beneficente.nis }}</h4>
+            </div>
+        {% elseif mensagem is defined %}
+            <div class="mensagem mensagem-erro">
+                <h4>{{ log }}<h4>
+            </div>
+        {% endif %}
+        
+    </aside>
+
+</div>
+
+{% endblock %}
